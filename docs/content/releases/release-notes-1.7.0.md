@@ -9,7 +9,7 @@ categories: ["reference"]
 ---
 
 ## NGINX Service Mesh Version 1.7.0
-<br/>
+
 02/03/2004
 
 <!-- vale off -->
