@@ -1,14 +1,16 @@
 ---
 title: "Release Notes 1.7.0"
-date: None
+date: 02/03/2004
 draft: false
 toc: true
 description: Release information for NGINX Service Mesh, a configurable, low‑latency infrastructure layer designed to handle a high volume of network‑based interprocess communication among application infrastructure services using application programming interfaces (APIs).  Lists of new features and known issues are provided.
-weight: -1700
+weight: 500
 categories: ["reference"]
 ---
 
 ## NGINX Service Mesh Version 1.7.0
+<br/>
+02/03/2004
 
 <!-- vale off -->
 
@@ -16,6 +18,8 @@ These release notes provide general information and describe known issues for NG
 
 - [NGINX Service Mesh Version 1.7.0](#nginx-service-mesh-version-170)
   - [Updates](#updates)
+  - [Vulnerabilites](#vulnerabilities)
+  - [Resolved Issues](#resolved-issues)
   - [Known Issues](#known-issues)
   - {{< link "/about/tech-specs" "Supported Versions" >}}
 
@@ -28,21 +32,39 @@ These release notes provide general information and describe known issues for NG
 NGINX Service Mesh 1.7.0 includes the following updates:
 <br/><br/>
 
-- `nginx-meshctl` command-line tool can now be downloaded from [Github](https://github.com/nginxinc/nginx-service-mesh/releases/latest).
-- NGINX Service Mesh can now integrate with the open source version of [NGINX Ingress Controller](https://github.com/nginxinc/kubernetes-ingress).
-- For easier integration with NGINX Ingress Controller, users can now [simply add a label]({{< ref "/tutorials/kic/deploy-with-kic.md" >}}) to their Ingress Controller PodSpec, and NGINX Service Mesh will automatically update the controller to integrate.
-- Sidecar and init containers now support ARM processors. Full ARM support is coming.
-- OpenShift CSI Driver volume plugin has been renamed from `wlapi-mounter.spire.nginx.com` to `csi.spiffe.io`.
-- For OpenShift deployments, NGINX Service Mesh now uses the open source [SPIFFE CSI Driver](https://github.com/spiffe/spiffe-csi).
 
-{{< important >}}
-OpenShift users see the [upgrade guide]({{< ref "/guides/upgrade.md#upgrade-to-170-in-openshift" >}}) for instructions on how to upgrade to this release version.
-{{< /important >}}
+<span id="170-resolved"></a>
+
+### **Vulnerabilities**
 
 
-#### **Deprecation**
+#### **Fixes**
 
-- NGINX Ingress Controller annotations `nsm.nginx.com/enable-ingress` and `nsm.nginx.com/enable-egress` have been deprecated in favor of using labels.
+This release includes vulnerability fixes for the following issues.
+<br/>
+
+- None
+
+<br/>
+
+<span id="170-cvefixes"></a>
+
+#### **Third Party Updates**
+
+This release includes third party updates for the following issues.
+<br/><br/>
+
+<br/>
+
+<span id="170-thirdparty"></a>
+
+### **Resolved Issues**
+
+This release includes fixes for the following issues.
+<br/><br/>
+
+
+<br/>
 
 <span id="170-issues"></a>
 
@@ -62,18 +84,6 @@ The NGINX Service Mesh control plane has a validating webhook that will reject t
   <br/>
 
 When you create a RateLimit resource in Kubernetes, run `kubectl describe ratelimit <ratelimit-name>` and check for any `Warning` events. If a `Warning` event exists, either fix the conflict described in the `Warning` event message, or delete the RateLimit by running: `kubectl delete ratelimit <ratelimit-name>`. 
-  
-
-<br/>**Pods fail to deploy if invalid Jaeger tracing address is set (540)**:
-  <br/>
-
-If `--tracing-address` is set to an invalid Jaeger address when deploying NGINX Service Mesh, all pods will fail to start.
-  <br/>
-  <br/>
-  Workaround:
-  <br/>
-
-If you use your own Zipkin or Jaeger instance with NGINX Service Mesh, make sure to correctly set `--tracing-address` when deploying the mesh.
   
 
 <br/>**Duplicate targetPorts in a Service are disregarded (532)**:
@@ -98,7 +108,6 @@ ports:
      protocol: TCP
      targetPort: 55555
 ```
-
   <br/>
   <br/>
   Workaround:
@@ -117,19 +126,5 @@ NGINX Service Mesh only supports the `cluster.local` DNS suffix. Services such a
   <br/>
 
 Ensure your cluster is setup with the default `cluster.local` DNS suffix.
-  
-
-<br/>**Pods can't be created if nginx-mesh-api is unreachable (384)**:
-  <br/>
-
-If the nginx-mesh-api Pod cannot be reached by the `sidecar-injector-webhook-cfg.internal.builtin.nsm.nginx` MutatingWebhookConfiguration, then all Pod creations will fail.
-  <br/>
-  <br/>
-  Workaround:
-  <br/>
-
-If attempting to create Pods that are not going to be injected by NGINX Service Mesh, then the simplest solution is to remove NGINX Service Mesh.
-
-Otherwise, if the nginx-mesh-api Pod is crashing, then the user should verify that their configuration when deploying NGINX Service Mesh is valid. Reinstalling the mesh may also fix connectivity issues.
   
 
